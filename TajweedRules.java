@@ -3,8 +3,8 @@ import java.util.*;
 
 public class TajweedRules{
   public static void main (String args[]){
-    String verse = "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ";//sample verse
-    int lenght = verse.length();
+    String arabicText = "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ";//sample verse
+    int lenght = arabicText.length();
     
     //general set up
     for(int i = 0; i < length; i++){
