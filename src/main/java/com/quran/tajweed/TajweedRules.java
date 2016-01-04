@@ -1,3 +1,5 @@
+package com.quran.tajweed;
+
 import java.io.*;
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class TajweedRules{
       
       
       //qalqalah
-      if (c1 == 'ّ'&& (i+3 >= length || isEndMark(c3))
+      if (c1 == 'ّ'&& (i+3 >= length || isEndMark(c3)))
         shaddaAtEnd = true;
       //checks wheter ending letter has shadda since this will cause an extra character to be taken into account
       int tillQalqalah = i + 2; //normally Qalqalah has the letter itself and a sukoon/case ending during a stop
@@ -55,11 +57,11 @@ public class TajweedRules{
     
   }
   
-  public boolean isDiaMark (char c){
+  public static boolean isDiaMark (char c){
         return c == 'ً' || c == 'ٌ' || c == 'ٍ' || c == 'َ' || c == 'ُ' || c == 'ِ' || c == 'ّ' || c == 'ْ' || c == 'ٰ';
   }
   
-  public boolean isEndMark (char c){
+  public static boolean isEndMark (char c){
       return c == 'ؕ' || c == 'ۘ' || c == 'ۚ'|| c == 'ۢ'|| c == 'ۙ'|| c == 'ۖ'|| c == 'ۗ'|| c == '؞'|| c == 'ؗ';
   }
 }
