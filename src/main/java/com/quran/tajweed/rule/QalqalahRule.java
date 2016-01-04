@@ -2,15 +2,18 @@ package com.quran.tajweed.rule;
 
 import com.quran.tajweed.CharacterUtil;
 
+/**
+ * Qalqalah Rule
+ * The letters of qalqalah are ق ط ب ج د. Qalqalah is done on these letters when
+ * there is either a sukoon on the letter or when one is stopping on these letters
+ */
+
 public class QalqalahRule implements Rule {
 
   @Override
   public void checkAyah(String ayah) {
     int length = ayah.length();
-    //general set up
     for (int i = 0; i < length; i++) {
-      // all these if statements stores previous and next characters to help in applying tajweed rules
-      // c1,2... refer to next chars while cp1,2 etc are previous chars. c is simply current char we are reading
       char c = ayah.charAt(i);
       char c1 = '!', c2 = '!', c3 = '!', cp1 = '!', cp2 = '!', cp3 = '!';
       boolean shaddaAtEnd = false;
