@@ -10,7 +10,7 @@ import com.quran.tajweed.CharacterUtil;
  * Igham without ghunna: when ن or tanween are followed by ل or ر
  */
 public class IdghamRule implements Rule {
-  private static final Character YA = 0x0649; // should this be 0x064a?
+  private static final Character YA = 0x064a;
   private static final Character RA = 0x0631;
   private static final Character MEEM = 0x0645;
   private static final Character LAM = 0x0644;
