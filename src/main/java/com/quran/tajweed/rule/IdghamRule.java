@@ -41,8 +41,10 @@ public class IdghamRule implements Rule {
       int index = -1;
       while ((index = (ayah.indexOf(potentialPostfix, index + 1))) > -1) {
         int previous = ayah.codePointBefore(index);
+
+        int lastIndex = index;
         while (Character.isSpaceChar(previous) && previous > 0) {
-          previous = ayah.codePointBefore(previous);
+          previous = ayah.codePointBefore(--lastIndex);
         }
 
         if (previous == CharacterUtil.FATHA_TANWEEN ||
