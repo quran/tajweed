@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class ArabicRead{
+public class TajweedRules{
   public static void main (String args[]){
     String verse = "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ";//sample verse
     int lenght = verse.length();
