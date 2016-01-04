@@ -37,6 +37,6 @@ public class CharacterUtil {
               c == SMALL_HIGH_MEEM ||
               c == SMALL_LAAM_ALEF ||
               c == SMALL_HIGH_JEEM ||
-              c == SMALL_THREE_DOTS ||;
+              c == SMALL_THREE_DOTS;
   }
 }
