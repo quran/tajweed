@@ -43,8 +43,8 @@ public class IdghamRule implements Rule {
         int previous = ayah.codePointBefore(index);
 
         int lastIndex = index;
-        while (Character.isSpaceChar(previous) && previous > 0) {
-          previous = ayah.codePointBefore(--lastIndex);
+        while (Character.isSpaceChar(previous) && lastIndex > 0) {
+          previous = ayah.codePointBefore(lastIndex--);
         }
 
         if (previous == CharacterUtil.FATHA_TANWEEN ||
@@ -52,6 +52,15 @@ public class IdghamRule implements Rule {
             previous == CharacterUtil.KASRA_TANWEEN ||
             previous == NOON) {
           System.out.println("match at: " + index + ", letter: " + potentialPostfix);
+        } else if (lastIndex > 0 &&
+            (previous == CharacterUtil.ALEF_LAYINA ||
+             previous == CharacterUtil.ALEF)) {
+          // if the previous character is either alif layina or alif, check to see if we have
+          // tanween with fatha on the previous letter.
+          previous = ayah.codePointBefore(lastIndex);
+          if (previous == CharacterUtil.FATHA_TANWEEN) {
+            System.out.println("match at: " + index + ", letter: " + potentialPostfix);
+          }
         }
       }
     }

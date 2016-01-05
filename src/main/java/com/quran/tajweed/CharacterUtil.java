@@ -11,7 +11,10 @@ public class CharacterUtil {
   public static final Character SUKUN = 0x0651;
   public static final Character SHADDA = 0x0652;
   public static final Character SMALL_ALEF = 0x0670; //the superscript alef
-  
+
+  public static final Character ALEF = 0x0627; // normal alef
+  public static final Character ALEF_LAYINA = 0x0649; // looks like ya but pronounced like alef
+
   //pausemarks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
   public static final Character SMALL_QAAF_LAAM_ALEF = 0x06D7;
