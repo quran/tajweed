@@ -17,6 +17,7 @@ public class CharacterUtil {
 
   public static final Character NOON = 0x0646;
   public static final Character BA = 0x0628;
+  public static final Character MEEM = 0x0645;
 
   //pausemarks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
@@ -31,6 +32,7 @@ public class CharacterUtil {
               c == DAMMA_TANWEEN ||
               c == KASRA_TANWEEN ||
               c == FATHA ||
+              c == DAMMA ||
               c == KASRA ||
               c == SUKUN ||
               c == SHADDA ||
@@ -44,5 +46,9 @@ public class CharacterUtil {
               c == SMALL_LAAM_ALEF ||
               c == SMALL_HIGH_JEEM ||
               c == SMALL_THREE_DOTS;
+  }
+  
+  public static boolean isLetter (Character c){
+    return !isEndMark(c) && !isDiaMark(c);
   }
 }
