@@ -1,13 +1,14 @@
 package com.quran.tajweed;
 
 import com.quran.tajweed.rule.IdghamRule;
+import com.quran.tajweed.rule.IkhfaRule;
 import com.quran.tajweed.rule.IqlabRule;
 import com.quran.tajweed.rule.QalqalahRule;
 import com.quran.tajweed.rule.Rule;
 
 public class TajweedRules {
   private static final Rule[] TAJWEED_RULES = new Rule[] {
-      new QalqalahRule(), new IdghamRule(), new IqlabRule()};
+      new QalqalahRule(), new IdghamRule(), new IqlabRule(), new IkhfaRule()};
 
   public static void main (String args[]) {
     String[] text = new String[] {
