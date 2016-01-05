@@ -8,8 +8,8 @@ public class CharacterUtil {
   public static final Character FATHA = 0x064e;
   public static final Character DAMMA = 0x064f;
   public static final Character KASRA = 0x0650;
-  public static final Character SUKUN = 0x0651;
-  public static final Character SHADDA = 0x0652;
+  public static final Character SUKUN = 0x0652;
+  public static final Character SHADDA = 0x0651;
   public static final Character SMALL_ALEF = 0x0670; //the superscript alef
 
   public static final Character ALEF = 0x0627; // normal alef
