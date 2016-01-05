@@ -1,0 +1,15 @@
+package com.quran.tajweed.rule;
+
+/**
+ * There are two rules with meem:
+ * After a meem sakin, if there is a ba then we have Ikhfa meem rule
+ * After a meem sakin, if there is another meem (with a shadda, in full scripts)
+ * then we have Idgaam meem rule
+ */
+public class MeemRule implements Rule {
+
+    @Override
+    public void checkAyah(String ayah){
+
+    }
+}
