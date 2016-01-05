@@ -12,7 +12,7 @@ import com.quran.tajweed.CharacterUtil;
 public class IdghamRule implements Rule {
   private static final Character YA = 0x064a;
   private static final Character RA = 0x0631;
-  private static final Character MEEM = 0x0645;
+  private static final Character MEEM = CharacterUtil.MEEM;
   private static final Character LAM = 0x0644;
   private static final Character WAW = 0x0648;
   private static final Character NOON = CharacterUtil.NOON;
