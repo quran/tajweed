@@ -27,7 +27,7 @@ public class CharacterUtil {
   public static final Character SMALL_HIGH_JEEM = 0x06DA;
   public static final Character SMALL_THREE_DOTS = 0x06DB;
 
-  public static boolean isDiaMark (Character c){
+  public static boolean isDiaMark (int c){
       return c == FATHA_TANWEEN ||
               c == DAMMA_TANWEEN ||
               c == KASRA_TANWEEN ||
@@ -39,7 +39,7 @@ public class CharacterUtil {
               c == SMALL_ALEF;
   }
 
-  public static boolean isEndMark (Character c){
+  public static boolean isEndMark (int c){
       return c == SMALL_SAAD_LAAM_ALEF ||
               c == SMALL_QAAF_LAAM_ALEF ||
               c == SMALL_HIGH_MEEM ||
@@ -48,7 +48,7 @@ public class CharacterUtil {
               c == SMALL_THREE_DOTS;
   }
   
-  public static boolean isLetter (Character c){
-    return !isEndMark(c) && !isDiaMark(c);
+  public static boolean isLetter (int c){
+    return !isEndMark(c) && !isDiaMark(c) && c != ' ';
   }
 }
