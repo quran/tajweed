@@ -15,6 +15,9 @@ public class CharacterUtil {
   public static final Character ALEF = 0x0627; // normal alef
   public static final Character ALEF_LAYINA = 0x0649; // looks like ya but pronounced like alef
 
+  public static final Character NOON = 0x0646;
+  public static final Character BA = 0x0628;
+
   //pausemarks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
   public static final Character SMALL_QAAF_LAAM_ALEF = 0x06D7;

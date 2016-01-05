@@ -15,7 +15,7 @@ public class IdghamRule implements Rule {
   private static final Character MEEM = 0x0645;
   private static final Character LAM = 0x0644;
   private static final Character WAW = 0x0648;
-  private static final Character NOON = 0x0646;
+  private static final Character NOON = CharacterUtil.NOON;
 
   private static final Character[] IDGHAM_WITH_GUNNAH = new Character[] { YA, NOON, MEEM, WAW };
   private static final Character[] IDGHAM_WITHOUT_GUNNAH = new Character[] { LAM, RA };
