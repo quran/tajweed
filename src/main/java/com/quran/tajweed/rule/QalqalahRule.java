@@ -47,7 +47,7 @@ public class QalqalahRule implements Rule {
 
   private boolean weStopping(int[] next){
     for (int i = 0; i < next.length; i++){
-      if (CharacterUtil.isEndMark(next[i]) || next[i] == 0) {
+      if ((CharacterUtil.isEndMark(next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF) || next[i] == 0) {
         return true;
       }
       if(CharacterUtil.isLetter(next[i])){
