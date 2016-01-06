@@ -39,7 +39,8 @@ public class QalqalahRule implements Rule {
           (next[0] == CharacterUtil.SUKUN || weStopping(next)))    {
         startPos = i;
         endPos = i + remaingMarks(next);
-        System.out.println("match from: " + startPos + " till " + endPos + ", letter: " + Character.toChars(currentChar));
+        System.out.print("match from: " + startPos + " till " + endPos + ", letter: ");
+        System.out.println(Character.toChars(currentChar));
       }
     }
   }
