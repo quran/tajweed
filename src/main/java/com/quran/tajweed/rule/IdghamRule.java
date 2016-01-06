@@ -1,6 +1,7 @@
 package com.quran.tajweed.rule;
 
 import com.quran.tajweed.CharacterUtil;
+import com.quran.tajweed.util.CharacterInfo;
 
 /**
  * Idgham Rule
@@ -40,24 +41,20 @@ public class IdghamRule implements Rule {
     for (Character potentialPostfix : prefixCharacters) {
       int index = -1;
       while ((index = (ayah.indexOf(potentialPostfix, index + 1))) > -1) {
-        int previous = ayah.codePointBefore(index);
+        CharacterInfo previousCharacter = CharacterUtil.getPreviousCharacter(ayah, index);
 
-        int lastIndex = index;
-        while (Character.isSpaceChar(previous) && lastIndex > 0) {
-          previous = ayah.codePointBefore(lastIndex--);
-        }
-
+        int previous = previousCharacter.character;
         if (previous == CharacterUtil.FATHA_TANWEEN ||
             previous == CharacterUtil.DAMMA_TANWEEN ||
             previous == CharacterUtil.KASRA_TANWEEN ||
             previous == NOON) {
           System.out.println("match at: " + index + ", letter: " + potentialPostfix);
-        } else if (lastIndex > 0 &&
+        } else if (previousCharacter.index > 0 &&
             (previous == CharacterUtil.ALEF_LAYINA ||
              previous == CharacterUtil.ALEF)) {
           // if the previous character is either alif layina or alif, check to see if we have
           // tanween with fatha on the previous letter.
-          previous = ayah.codePointBefore(lastIndex);
+          previous = ayah.codePointBefore(previousCharacter.index);
           if (previous == CharacterUtil.FATHA_TANWEEN) {
             System.out.println("match at: " + index + ", letter: " + potentialPostfix);
           }
