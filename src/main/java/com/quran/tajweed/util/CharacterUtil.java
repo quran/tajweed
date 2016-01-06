@@ -1,6 +1,4 @@
-package com.quran.tajweed;
-
-import com.quran.tajweed.util.CharacterInfo;
+package com.quran.tajweed.util;
 
 public class CharacterUtil {
   //diacritic marks

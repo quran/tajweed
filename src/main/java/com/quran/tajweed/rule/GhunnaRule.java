@@ -1,6 +1,6 @@
 package com.quran.tajweed.rule;
 
-import com.quran.tajweed.CharacterUtil;
+import com.quran.tajweed.util.CharacterUtil;
 
 /**
  * Ghunna Rule
