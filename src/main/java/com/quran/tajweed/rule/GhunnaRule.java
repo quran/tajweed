@@ -29,7 +29,8 @@ public class GhunnaRule implements Rule {
             int currentChar = ayah.codePointAt(i);
             if ((currentChar == CharacterUtil.NOON ||
                  currentChar == CharacterUtil.MEEM) &&
-                 next[0] == CharacterUtil.SHADDA){
+                 (next[0] == CharacterUtil.SHADDA ||
+                 next[1] == CharacterUtil.SHADDA)){
 
                 startPos = i - findPreviousLetterPronounced(previous);
                 endPos = i + findNextLetter(next);
