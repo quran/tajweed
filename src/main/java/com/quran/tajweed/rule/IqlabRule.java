@@ -1,7 +1,13 @@
 package com.quran.tajweed.rule;
 
-import com.quran.tajweed.util.CharacterUtil;
+import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.ResultType;
+import com.quran.tajweed.model.TwoPartResult;
 import com.quran.tajweed.util.CharacterInfo;
+import com.quran.tajweed.util.CharacterUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Iqlab Rule
@@ -10,9 +16,8 @@ import com.quran.tajweed.util.CharacterInfo;
 public class IqlabRule implements Rule {
 
   @Override
-  public void checkAyah(String ayah) {
-    System.out.println("checking iqlab...");
-
+  public List<Result> checkAyah(String ayah) {
+    List<Result> results = new ArrayList<>();
     int index = -1;
     while ((index = (ayah.indexOf(CharacterUtil.BA, index + 1))) > -1) {
       CharacterInfo previousCharacter = CharacterUtil.getPreviousCharacter(ayah, index);
@@ -22,8 +27,10 @@ public class IqlabRule implements Rule {
           previous == CharacterUtil.DAMMA_TANWEEN ||
           previous == CharacterUtil.KASRA_TANWEEN ||
           previous == CharacterUtil.NOON) {
-        System.out.println("match at " + index);
+        results.add(new TwoPartResult(ResultType.IQLAB, index, index + 1,
+            ResultType.IQLAB_NOT_PRONOUNCED, previous, previous + 1));
       }
     }
+    return results;
   }
 }

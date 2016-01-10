@@ -1,6 +1,11 @@
 package com.quran.tajweed.rule;
 
+import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.ResultType;
 import com.quran.tajweed.util.CharacterUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ghunna Rule
@@ -9,8 +14,9 @@ import com.quran.tajweed.util.CharacterUtil;
 public class GhunnaRule implements Rule {
 
     @Override
-    public void checkAyah(String ayah){
-        System.out.println("Checking ghunna...");
+    public List<Result> checkAyah(String ayah){
+        List<Result> results = new ArrayList<>();
+
         int length = ayah.length();
         int startPos = 0, endPos = 0;
         for (int i = 0; i < length; i++){
@@ -34,10 +40,10 @@ public class GhunnaRule implements Rule {
 
                 startPos = i - findPreviousLetterPronounced(previous);
                 endPos = i + findNextLetter(next);
-                System.out.print("match from: " + startPos + " till " + endPos + ", letter: " );
-                System.out.println(Character.toChars(currentChar));
+                results.add(new Result(ResultType.GHUNNA, startPos, endPos));
             }
         }
+        return results;
     }
 
     private int findPreviousLetterPronounced (int[] previous){

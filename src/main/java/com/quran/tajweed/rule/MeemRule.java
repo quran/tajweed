@@ -1,6 +1,10 @@
 package com.quran.tajweed.rule;
 
+import com.quran.tajweed.model.Result;
 import com.quran.tajweed.util.CharacterUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * There are two rules with meem:
@@ -11,8 +15,8 @@ import com.quran.tajweed.util.CharacterUtil;
 public class MeemRule implements Rule {
 
     @Override
-    public void checkAyah(String ayah){
-        System.out.println("checking meem rules...");
+    public List<Result> checkAyah(String ayah){
+        List<Result> results = new ArrayList<>();
         int length = ayah.length();
         for (int i = 0; i < length; i++) {
             int[] nextWithCurrent = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -26,8 +30,8 @@ public class MeemRule implements Rule {
                 checkMeemIdgham(nextWithCurrent, i);
                 checkMeemIkhfa(nextWithCurrent, i);
             }
-
         }
+        return results;
     }
 
     private void checkMeemIdgham(int[] nextWithCurrent, int i){
