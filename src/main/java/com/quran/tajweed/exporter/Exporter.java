@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface Exporter {
   void export(String ayah, List<Result> results);
+
+  default void onOutputStarted() {}
+  default void onOutputCompleted() {}
 }

@@ -1,8 +1,9 @@
 package com.quran.tajweed;
 
 import com.quran.tajweed.exporter.Exporter;
-import com.quran.tajweed.exporter.TextExporter;
+import com.quran.tajweed.exporter.HtmlExporter;
 import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.ResultUtil;
 import com.quran.tajweed.model.TajweedRule;
 
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ public class TajweedRules {
       "ثُمَّ بَعَثْنَاكُم مِّن بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ",
     };
 
-    Exporter exporter = new TextExporter();
+    Exporter exporter = new HtmlExporter();
+    exporter.onOutputStarted();
 
     List<TajweedRule> rules = TajweedRule.RULES;
     for (String ayahText : text) {
@@ -26,7 +28,9 @@ public class TajweedRules {
       for (TajweedRule tajweedRule : rules) {
         results.addAll(tajweedRule.rule.checkAyah(ayahText));
       }
+      ResultUtil.INSTANCE.sort(results);
       exporter.export(ayahText, results);
     }
+    exporter.onOutputCompleted();
   }
 }

@@ -12,4 +12,14 @@ public class TwoPartResult extends Result {
     this.secondEnding = secondEnding;
     this.secondResultType = secondResultType;
   }
+
+  @Override
+  public int getMinimumStartingPosition() {
+    return Math.min(start, secondStart);
+  }
+
+  @Override
+  public int getMaximumEndingPosition() {
+    return Math.max(ending, secondEnding);
+  }
 }

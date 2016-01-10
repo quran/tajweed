@@ -10,4 +10,12 @@ public class Result {
     this.ending = ending;
     this.resultType = resultType;
   }
+
+  public int getMinimumStartingPosition() {
+    return start;
+  }
+
+  public int getMaximumEndingPosition() {
+    return ending;
+  }
 }
