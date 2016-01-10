@@ -1,5 +1,9 @@
 package com.quran.tajweed.rule;
 
+import com.quran.tajweed.model.Result;
+
+import java.util.List;
+
 public interface Rule {
-  void checkAyah(String ayah);
+  List<Result> checkAyah(String ayah);
 }

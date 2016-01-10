@@ -1,14 +1,12 @@
 package com.quran.tajweed;
 
-import com.quran.tajweed.rule.IdghamRule;
-import com.quran.tajweed.rule.IkhfaRule;
-import com.quran.tajweed.rule.IqlabRule;
-import com.quran.tajweed.rule.QalqalahRule;
-import com.quran.tajweed.rule.Rule;
+import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.TajweedRule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TajweedRules {
-  private static final Rule[] TAJWEED_RULES = new Rule[] {
-      new QalqalahRule(), new IdghamRule(), new IqlabRule(), new IkhfaRule()};
 
   public static void main (String args[]) {
     String[] text = new String[] {
@@ -18,10 +16,17 @@ public class TajweedRules {
       "ثُمَّ بَعَثْنَاكُم مِّن بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ",
     };
 
+    List<TajweedRule> rules = TajweedRule.RULES;
     for (String ayahText : text) {
       System.out.println("Considering: " + ayahText);
-      for (Rule rule : TAJWEED_RULES) {
-        rule.checkAyah(ayahText);
+      List<Result> results = new ArrayList<>();
+      for (TajweedRule tajweedRule : rules) {
+        results.addAll(tajweedRule.rule.checkAyah(ayahText));
+      }
+
+      for (Result result : results) {
+        System.out.println("matched " + result.resultType.debugName +
+            " at " + result.start + " to " + result.ending);
       }
     }
   }

@@ -1,7 +1,13 @@
 package com.quran.tajweed.rule;
 
-import com.quran.tajweed.util.CharacterUtil;
+import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.ResultType;
+import com.quran.tajweed.model.TwoPartResult;
 import com.quran.tajweed.util.CharacterInfo;
+import com.quran.tajweed.util.CharacterUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Idgham Rule
@@ -22,27 +28,36 @@ public class IdghamRule implements Rule {
   private static final Character LAM = 0x0644;
 
   @Override
-  public void checkAyah(String ayah) {
-    System.out.println("checking idgham...");
-
+  public List<Result> checkAyah(String ayah) {
+    List<Result> results = new ArrayList<>();
     int[] characters = ayah.codePoints().toArray();
     for (int i = 0; i < characters.length; i++) {
       int current = characters[i];
 
       if (current == RA || current == LAM ||
           current == YA || current == NOON || current == MEEM || current == WAW) {
-        if (isValidIdgham(ayah, i)) {
-          String type = (current != LAM && current != RA) ? "with ghunna" : "without ghunna";
-          System.out.println("match idgham " + type + " at: " + i + ", letter: " + (char) current);
+        int previousMatchPosition = isValidIdgham(ayah, i);
+        if (previousMatchPosition >= 0) {
+          boolean withGhunna = (current != LAM && current != RA);
+          if (withGhunna) {
+            results.add(new TwoPartResult(ResultType.IDGHAM_WITH_GHUNNA, i, i + 1,
+                ResultType.IDGHAM_NOT_PRONOUNCED, previousMatchPosition,
+                previousMatchPosition + 1));
+          } else {
+            results.add(new Result(ResultType.IDGHAM_WITHOUT_GHUNNA,
+                previousMatchPosition, previousMatchPosition + 1));
+          }
         }
       }
     }
+    return results;
   }
 
-  private boolean isValidIdgham(String ayah, int index) {
+  private int isValidIdgham(String ayah, int index) {
     CharacterInfo previousCharacter = CharacterUtil.getPreviousCharacter(ayah, index);
 
     boolean result = false;
+    int previousIndex = previousCharacter.index;
     int previous = previousCharacter.character;
     if (previous == CharacterUtil.FATHA_TANWEEN ||
         previous == CharacterUtil.DAMMA_TANWEEN ||
@@ -55,7 +70,8 @@ public class IdghamRule implements Rule {
       // tanween with fatha on the previous letter.
       previous = ayah.codePointBefore(previousCharacter.index);
       result = previous == CharacterUtil.FATHA_TANWEEN;
+      previousIndex = previousCharacter.index - 1;
     }
-    return result;
+    return result ? previousIndex : -1;
   }
 }

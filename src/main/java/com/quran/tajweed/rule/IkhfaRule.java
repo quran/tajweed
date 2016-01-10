@@ -1,5 +1,10 @@
 package com.quran.tajweed.rule;
 
+import com.quran.tajweed.model.Result;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Ikhfa Rule
  * Ikhafa occurs when a ن (noon sakina) or tanween are followed by any letter, except for:
@@ -10,6 +15,7 @@ package com.quran.tajweed.rule;
 public class IkhfaRule implements Rule {
 
   @Override
-  public void checkAyah(String ayah) {
+  public List<Result> checkAyah(String ayah) {
+    return new ArrayList<>();
   }
 }
