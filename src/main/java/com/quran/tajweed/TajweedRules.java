@@ -1,5 +1,7 @@
 package com.quran.tajweed;
 
+import com.quran.tajweed.exporter.Exporter;
+import com.quran.tajweed.exporter.TextExporter;
 import com.quran.tajweed.model.Result;
 import com.quran.tajweed.model.TajweedRule;
 
@@ -16,18 +18,15 @@ public class TajweedRules {
       "ثُمَّ بَعَثْنَاكُم مِّن بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ",
     };
 
+    Exporter exporter = new TextExporter();
+
     List<TajweedRule> rules = TajweedRule.RULES;
     for (String ayahText : text) {
-      System.out.println("Considering: " + ayahText);
       List<Result> results = new ArrayList<>();
       for (TajweedRule tajweedRule : rules) {
         results.addAll(tajweedRule.rule.checkAyah(ayahText));
       }
-
-      for (Result result : results) {
-        System.out.println("matched " + result.resultType.debugName +
-            " at " + result.start + " to " + result.ending);
-      }
+      exporter.export(ayahText, results);
     }
   }
 }
