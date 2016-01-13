@@ -11,5 +11,19 @@ repositories {
    mavenCentral();
 }
 
+sourceSets {
+   test {
+      java.srcDir file('src/main/test')
+   }
+}
+
+test {
+   testLogging {
+      events 'started', 'passed'
+   }
+}
+
 dependencies {
+   testCompile 'junit:junit:4.12'
+   testCompile 'com.google.truth:truth:0.27'
 }

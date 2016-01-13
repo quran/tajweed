@@ -1,7 +1,7 @@
 package com.quran.tajweed.util;
 
 public class CharacterUtil {
-  //diacritic marks
+  // diacritic marks
   public static final Character FATHA_TANWEEN = 0x064b;
   public static final Character DAMMA_TANWEEN = 0x064c;
   public static final Character KASRA_TANWEEN = 0x064d;
@@ -57,16 +57,21 @@ public class CharacterUtil {
    * @param string the string to look at
    * @param index the index of the character to look before
    * @return a {{@link CharacterInfo}} instance containing the index and character. In case of
-   * errors or inability to move backwards, a character of -1 maybe returned.
+   * errors or inability to move backwards, a character of -1 is returned.
    */
   public static CharacterInfo getPreviousCharacter(String string, int index) {
     int previous = -1;
-    int lastIndex = index;
+    int lastIndex = index - 1;
     if (index > 0) {
       previous = string.codePointBefore(index);
       while (Character.isSpaceChar(previous) && lastIndex > 0) {
         previous = string.codePointBefore(lastIndex--);
       }
+    }
+
+    if (Character.isSpaceChar(previous)) {
+      previous = -1;
+      lastIndex = -1;
     }
     return new CharacterInfo(lastIndex, previous);
   }
