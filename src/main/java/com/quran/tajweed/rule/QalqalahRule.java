@@ -49,10 +49,17 @@ public class QalqalahRule implements Rule {
           endPos = i + CharacterUtil.findRemainingMarks(next);
         }
         // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
-        if(next[1] == CharacterUtil.SUKUN || next[1] == ' '){
-          //will do later
+        if(next[1] == CharacterUtil.SUKUN || next[1] == ' ' || CharacterUtil.isLetter(next[1])){
+          for(int j = 1; j < next.length - 2 && next[j] !=0; j++){
+            if(!(CharacterUtil.isLetter(next[j]) && (next[j+1] == CharacterUtil.SHADDA || next[j+2] == CharacterUtil.SHADDA))){
+              results.add(new Result(ResultType.QALQALAH, startPos, endPos));
+            } else {
+              break;
+            }
+          }
+        } else {
+          results.add(new Result(ResultType.QALQALAH, startPos, endPos));
         }
-        results.add(new Result(ResultType.QALQALAH, startPos, endPos));
       }
     }
     return results;
