@@ -24,7 +24,6 @@ public class MeemRule implements Rule {
       if(CharacterUtil.isMeemSaakin(next)){
         // Madani does not need to differentiate between Ghunna and Idgam Meem
         //However in certain unmarked texts, the shadda used to determine ghunna may be missing
-        System.out.println("Meem Saakin at: "+ayah.charAt(i) + "at index " + i);
         results.addAll(checkMeemIdgham(next, i));
         results.addAll(checkMeemIkhfa(next, i));
       }
