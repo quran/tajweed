@@ -1,6 +1,8 @@
 package com.quran.tajweed.util;
 
 public class CharacterUtil {
+  public static boolean NASKHSTYLE = false;
+
   // diacritic marks
   public static final Character FATHA_TANWEEN = 0x064b;
   public static final Character DAMMA_TANWEEN = 0x064c;
@@ -47,6 +49,57 @@ public class CharacterUtil {
               c == SMALL_HIGH_JEEM ||
               c == SMALL_THREE_DOTS;
   }
+  /**
+   * Given an array of characters this checks for the cases there is a noon saakin.
+   * Namely, noon saakin can either exist if there is a noon either explicitly followed
+   * by a sukun or in certain unmarked texts it will have no marks. Note: Only array
+   * size 2 is necessary to determine this.
+   */
+  public static boolean isNoonSaakin(int[] nextChars){
+    return nextChars[0] == NOON &&
+            (nextChars[1] == SUKUN ||
+             nextChars[1] == ' ' ||
+             isLetter(nextChars[1]));
+  }
+
+  public static boolean isMeemSaakin(int[] nextChars){
+    return (nextChars[0] == MEEM &&
+            (nextChars[1] == SUKUN ||
+            nextChars[1] == ' ' ||
+            isLetter(nextChars[1])));
+  }
+
+  public static boolean isTanween(int thisChar){
+    return thisChar == FATHA_TANWEEN ||
+            thisChar == DAMMA_TANWEEN ||
+            thisChar == KASRA_TANWEEN;
+  }
+  /**
+   * Given a string and an index, return an arrays with next characters from the index.
+   * The first position is always the character at current position.
+   * Zeros are used to represent non-characters and thus end of the string.
+   */
+  public static int[] getNextChars(String ayah, int index){
+    int[] next = {0, 0, 0, 0, 0, 0};
+    for (int j = 0; j < next.length; j++){
+      int nIndex = index + j;
+      if(nIndex < ayah.length()){
+        next[j] = ayah.codePointAt(nIndex);
+      }
+    }
+    return next;
+  }
+
+  public static int[] getPreviousChars(String ayah, int index){
+    int[] previous = {0, 0, 0, 0, 0, 0};
+    for (int j = 0; j < previous.length; j++){
+      int pIndex = index - j;
+      if(pIndex >= 0){
+        previous[j] = ayah.codePointAt(pIndex);
+      }
+    }
+    return previous;
+  }
   
   public static boolean isLetter (int c){
     return !isEndMark(c) && !isDiaMark(c) && c != ' ';
@@ -74,5 +127,23 @@ public class CharacterUtil {
       lastIndex = -1;
     }
     return new CharacterInfo(lastIndex, previous);
+  }
+
+  public static int findPreviousLetterPronounced (int[] previous){
+    for (int i = 2; i < previous.length; i++){
+      if(isLetter(previous[i]) && isDiaMark(previous[i-1])){
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  public static int findRemainingMarks(int[] next) {
+    for (int i = 1; i < next.length; i++){
+      if(!isDiaMark(next[i])){
+        return i;
+      }
+    }
+    return 0;
   }
 }

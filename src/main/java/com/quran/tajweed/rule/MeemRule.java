@@ -1,9 +1,11 @@
 package com.quran.tajweed.rule;
 
 import com.quran.tajweed.model.Result;
+import com.quran.tajweed.model.ResultType;
 import com.quran.tajweed.util.CharacterUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,68 +15,60 @@ import java.util.List;
  * then we have Idgaam meem rule
  */
 public class MeemRule implements Rule {
-
-    @Override
-    public List<Result> checkAyah(String ayah){
-        List<Result> results = new ArrayList<>();
-        int length = ayah.length();
-        for (int i = 0; i < length; i++) {
-            int[] nextWithCurrent = {0, 0, 0, 0, 0, 0, 0, 0};
-            for (int j = 0; j < nextWithCurrent.length; j++) {
-                int nIndex = i + j;
-                if (nIndex < length) {
-                    nextWithCurrent[j] = ayah.codePointAt(nIndex);
-                }
-            }
-            if(nextWithCurrent[0] == CharacterUtil.MEEM && nextWithCurrent[1] == CharacterUtil.SUKUN){
-                checkMeemIdgham(nextWithCurrent, i);
-                checkMeemIkhfa(nextWithCurrent, i);
-            }
-        }
-        return results;
+  @Override
+  public List<Result> checkAyah(String ayah){
+    List<Result> results = new ArrayList<>();
+    int length = ayah.length();
+    for (int i = 0; i < length; i++) {
+      int[] next = CharacterUtil.getNextChars(ayah, i);
+      if(CharacterUtil.isMeemSaakin(next)){
+        // Madani does not need to differentiate between Ghunna and Idgam Meem
+        //However in certain unmarked texts, the shadda used to determine ghunna may be missing
+        results.addAll(checkMeemIdgham(next, i));
+        results.addAll(checkMeemIkhfa(next, i));
+      }
     }
+    return results;
+  }
 
-    private void checkMeemIdgham(int[] nextWithCurrent, int i){
-        int startPos = 0, endPos = 0;
-        for (int j = 2; j < nextWithCurrent.length && nextWithCurrent[j] != 0; j++){
-            if(CharacterUtil.isLetter(nextWithCurrent[j])){
-                if(nextWithCurrent[j] == CharacterUtil.MEEM){
-                    startPos = i;
-                    endPos = i + remainingMarks(nextWithCurrent, j);
-                    System.out.print("match from meem idgham : " + startPos + " till " + endPos + ", letter: ");
-                    System.out.println(Character.toChars(nextWithCurrent[0]));
-                }
-                else {
-                    break;
-                }
-            }
+  private List<Result> checkMeemIdgham(int[] next, int i){
+    List<Result> results = new ArrayList<>();
+    int startPos = 0, endPos = 0;
+    for (int j = 1; j < next.length && next[j] != 0; j++){
+      if(CharacterUtil.isLetter(next[j])) {
+        if (next[j] == CharacterUtil.MEEM) {
+          startPos = i;
+          endPos = i + CharacterUtil.findRemainingMarks(next);
+          if(CharacterUtil.NASKHSTYLE){
+            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+          }
+          results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
+        } else {
+          break;
         }
-
+      }
     }
+    return results;
+  }
 
-    private void checkMeemIkhfa(int[] nextWithCurrent, int i){
-        int startPos = 0, endPos = 0;
-        for (int j = 2; j < nextWithCurrent.length && nextWithCurrent[j] != 0; j++){
-            if(CharacterUtil.isLetter(nextWithCurrent[j])){
-                if(nextWithCurrent[j] == CharacterUtil.BA){
-                    startPos = i;
-                    endPos = i + remainingMarks(nextWithCurrent, j);
-                    System.out.print("match from meem ikhfa: " + startPos + " till " + endPos + ", letter: ");
-                    System.out.println(Character.toChars(nextWithCurrent[0]));
-                }
-                else {
-                    break;
-                }
-            }
+  private List<Result> checkMeemIkhfa(int[] next, int i){
+    List<Result> results = new ArrayList<>();
+    int startPos = 0, endPos = 0;
+    for (int j = 1; j < next.length && next[j] != 0; j++){
+      if(CharacterUtil.isLetter(next[j])){
+        if(next[j] == CharacterUtil.BA){
+          startPos = i;
+          endPos = i + CharacterUtil.findRemainingMarks(next);
+          if(CharacterUtil.NASKHSTYLE){
+            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+          }
+          results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
         }
-    }
-
-    private int remainingMarks(int[] nextWithCurrent, int j){
-        for (;j < nextWithCurrent.length && nextWithCurrent[j] != 0; j++){
-            if(CharacterUtil.isLetter(nextWithCurrent[j])){
-                return j;
-            }
+        else {
+          break;
         }
-        return 0;
+      }
     }
+    return results;
+  }
 }

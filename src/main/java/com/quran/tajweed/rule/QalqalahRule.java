@@ -27,23 +27,31 @@ public class QalqalahRule implements Rule {
     int length = ayah.length();
     int startPos, endPos;
     for (int i = 0; i < length; i++) {
-      int[] next = {0, 0, 0, 0, 0};
-      int currentChar = ayah.codePointAt(i);
-      for (int j = 0; j < next.length; j++) {
-        int nIndex = i + j + 1;
-        if (nIndex < length) {
-          next[j] = ayah.codePointAt(nIndex);
-        }
-      }
+      int[] next = CharacterUtil.getNextChars(ayah, i);
+      int currentChar = next[0];
 
       if ((currentChar == DAAL ||
           currentChar == BA ||
           currentChar == JEEM ||
           currentChar == QAAF ||
           currentChar == TAA) &&
-          (next[0] == CharacterUtil.SUKUN || weStopping(next)))    {
+          (next[1] == CharacterUtil.SUKUN ||
+           next[1] == ' ' ||
+           CharacterUtil.isLetter(next[1]) ||
+           weStopping(next)))    {
         startPos = i;
-        endPos = i + remaingMarks(next);
+        // In the madani pattern, only the qalqalh letter and sukun are highlighted (if present)
+        endPos = i + 1;
+        if(next[1] == CharacterUtil.SUKUN){
+          endPos++;
+        }
+        if(CharacterUtil.NASKHSTYLE) {
+          endPos = i + CharacterUtil.findRemainingMarks(next);
+        }
+        // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
+        if(next[1] == CharacterUtil.SUKUN || next[1] == ' '){
+          //will do later
+        }
         results.add(new Result(ResultType.QALQALAH, startPos, endPos));
       }
     }
@@ -51,8 +59,9 @@ public class QalqalahRule implements Rule {
   }
 
   private boolean weStopping(int[] next){
-    for (int i = 0; i < next.length; i++){
-      if ((CharacterUtil.isEndMark(next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF) || next[i] == 0) {
+    for (int i = 1; i < next.length; i++){
+      if ((CharacterUtil.isEndMark(next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF && (CharacterUtil.NASKHSTYLE ||
+          (next[i] != CharacterUtil.SMALL_THREE_DOTS))) || next[i] == 0) {
         return true;
       }
       if(CharacterUtil.isLetter(next[i])){
@@ -60,15 +69,5 @@ public class QalqalahRule implements Rule {
       }
     }
     return false;
-  }
-
-  private int remaingMarks(int[] next){
-    int i = 0;
-    for (; i < next.length; i++){
-      if (!CharacterUtil.isDiaMark(next[i])) {
-        break;
-      }
-    }
-    return i;
   }
 }
