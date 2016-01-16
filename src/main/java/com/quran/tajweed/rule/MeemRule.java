@@ -37,10 +37,10 @@ public class MeemRule implements Rule {
     for (int j = 1; j < next.length && next[j] != 0; j++){
       if(CharacterUtil.isLetter(next[j])) {
         if (next[j] == CharacterUtil.MEEM) {
-          startPos = i + j;
-          endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
-          if (CharacterUtil.NASKHSTYLE) {
-            startPos = i;
+          startPos = i;
+          endPos = i + CharacterUtil.findRemainingMarks(next);
+          if(CharacterUtil.NASKHSTYLE){
+            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
           }
           results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
         } else {
@@ -57,10 +57,10 @@ public class MeemRule implements Rule {
     for (int j = 1; j < next.length && next[j] != 0; j++){
       if(CharacterUtil.isLetter(next[j])){
         if(next[j] == CharacterUtil.BA){
-          startPos = i + j;
-          endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+          startPos = i;
+          endPos = i + CharacterUtil.findRemainingMarks(next);
           if(CharacterUtil.NASKHSTYLE){
-            startPos = i;
+            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
           }
           results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
         }
