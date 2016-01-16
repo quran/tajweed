@@ -49,6 +49,11 @@ public class CharacterUtil {
               c == SMALL_HIGH_JEEM ||
               c == SMALL_THREE_DOTS;
   }
+  
+  public static boolean isLetter (int c){
+    return !isEndMark(c) && !isDiaMark(c) && c != ' ';
+  }
+  
   /**
    * Given an array of characters this checks for the cases there is a noon saakin.
    * Namely, noon saakin can either exist if there is a noon either explicitly followed
@@ -74,6 +79,7 @@ public class CharacterUtil {
             thisChar == DAMMA_TANWEEN ||
             thisChar == KASRA_TANWEEN;
   }
+  
   /**
    * Given a string and an index, return an arrays with next characters from the index.
    * The first position is always the character at current position.
@@ -101,10 +107,6 @@ public class CharacterUtil {
     return previous;
   }
   
-  public static boolean isLetter (int c){
-    return !isEndMark(c) && !isDiaMark(c) && c != ' ';
-  }
-
   /**
    * Given a string and an index, return the previous character and its position, ignoring spaces.
    * @param string the string to look at
