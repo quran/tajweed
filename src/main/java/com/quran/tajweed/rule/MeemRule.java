@@ -40,7 +40,7 @@ public class MeemRule implements Rule {
           startPos = i;
           endPos = i + CharacterUtil.findRemainingMarks(next);
           if(CharacterUtil.NASKHSTYLE){
-            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+            endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
           }
           results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
         } else {
@@ -60,7 +60,7 @@ public class MeemRule implements Rule {
           startPos = i;
           endPos = i + CharacterUtil.findRemainingMarks(next);
           if(CharacterUtil.NASKHSTYLE){
-            endPos += j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+            endPos = j + i + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
           }
           results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
         }
