@@ -15,12 +15,6 @@ import java.util.List;
 
 public class QalqalahRule implements Rule {
 
-  private static final Character BA = CharacterUtil.BA;
-  private static final Character JEEM = 0x062c;
-  private static final Character DAAL = 0x062f;
-  private static final Character QAAF = 0x0642;
-  private static final Character TAA = 0x0637;
-
   @Override
   public List<Result> checkAyah(String ayah) {
     List<Result> results = new ArrayList<>();
@@ -30,11 +24,11 @@ public class QalqalahRule implements Rule {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int currentChar = next[0];
 
-      if ((currentChar == DAAL ||
-          currentChar == BA ||
-          currentChar == JEEM ||
-          currentChar == QAAF ||
-          currentChar == TAA) &&
+      if ((currentChar == CharacterUtil.DAAL ||
+          currentChar == CharacterUtil.BA ||
+          currentChar == CharacterUtil.JEEM ||
+          currentChar == CharacterUtil.QAAF ||
+          currentChar == CharacterUtil.TAA) &&
           (next[1] == CharacterUtil.SUKUN ||
            next[1] == ' ' ||
            CharacterUtil.isLetter(next[1]) ||
