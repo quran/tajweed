@@ -20,6 +20,10 @@ public class CharacterUtil {
   public static final Character NOON = 0x0646;
   public static final Character BA = 0x0628;
   public static final Character MEEM = 0x0645;
+  public static final Character JEEM = 0x062c;
+  public static final Character DAAL = 0x062f;
+  public static final Character QAAF = 0x0642;
+  public static final Character TAA = 0x0637;
 
   //pausemarks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
@@ -132,7 +136,7 @@ public class CharacterUtil {
   }
 
   public static int findPreviousLetterPronounced (int[] previous){
-    for (int i = 2; i < previous.length; i++){
+    for (int i = 1; i < previous.length; i++){
       if(isLetter(previous[i]) && isDiaMark(previous[i-1])){
         return i;
       }
