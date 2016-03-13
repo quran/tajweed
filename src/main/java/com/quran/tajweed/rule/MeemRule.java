@@ -16,56 +16,30 @@ import java.util.List;
  */
 public class MeemRule implements Rule {
   @Override
-  public List<Result> checkAyah(String ayah){
+  public List<Result> checkAyah(String ayah) {
     List<Result> results = new ArrayList<>();
     int length = ayah.length();
+    int startPos = 0, endPos = 0;
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
-      if(CharacterUtil.isMeemSaakin(next)){
-        // Madani does not need to differentiate between Ghunna and Idgam Meem
-        //However in certain unmarked texts, the shadda used to determine ghunna may be missing
-        results.addAll(checkMeemIdgham(next, i));
-        results.addAll(checkMeemIkhfa(next, i));
-      }
-    }
-    return results;
-  }
-
-  private List<Result> checkMeemIdgham(int[] next, int i){
-    List<Result> results = new ArrayList<>();
-    int startPos = 0, endPos = 0;
-    for (int j = 1; j < next.length && next[j] != 0; j++){
-      if(CharacterUtil.isLetter(next[j])) {
-        if (next[j] == CharacterUtil.MEEM) {
-          startPos = i;
-          endPos = i + CharacterUtil.findRemainingMarks(next);
-          if(CharacterUtil.NASKHSTYLE){
-            endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+      if (CharacterUtil.isMeemSaakin(next)) {
+        for (int j = 1; j < next.length && next[j] != 0; j++) {
+          if (CharacterUtil.isLetter(next[j])) {
+            if (next[j] == CharacterUtil.MEEM || next[j] == CharacterUtil.BA) {
+              startPos = i;
+              endPos = i + CharacterUtil.findRemainingMarks(next);
+              if (CharacterUtil.NASKHSTYLE) {
+                endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+              }
+              if (next[j] == CharacterUtil.MEEM) {
+                results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
+              } else {
+                results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
+              }
+            } else {
+              break;
+            }
           }
-          results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
-        } else {
-          break;
-        }
-      }
-    }
-    return results;
-  }
-
-  private List<Result> checkMeemIkhfa(int[] next, int i){
-    List<Result> results = new ArrayList<>();
-    int startPos = 0, endPos = 0;
-    for (int j = 1; j < next.length && next[j] != 0; j++){
-      if(CharacterUtil.isLetter(next[j])){
-        if(next[j] == CharacterUtil.BA){
-          startPos = i;
-          endPos = i + CharacterUtil.findRemainingMarks(next);
-          if(CharacterUtil.NASKHSTYLE){
-            endPos = j + i + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
-          }
-          results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
-        }
-        else {
-          break;
         }
       }
     }
