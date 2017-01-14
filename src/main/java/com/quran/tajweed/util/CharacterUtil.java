@@ -24,6 +24,9 @@ public class CharacterUtil {
   public static final Character QAAF = 0x0642;
   public static final Character TAA = 0x0637;
 
+  // this is the meem on top of a character (like a noon) when it should be pronounced like a meem
+  public static final Character SMALL_HIGH_MEEM_ISOLATED = 0x06E2;
+
   // pause marks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
   public static final Character SMALL_QAAF_LAAM_ALEF = 0x06D7;

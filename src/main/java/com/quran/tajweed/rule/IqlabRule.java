@@ -30,6 +30,13 @@ public class IqlabRule implements Rule {
         results.add(new TwoPartResult(ResultType.IQLAB, index, index + 1,
             ResultType.IQLAB_NOT_PRONOUNCED, previousCharacter.index,
             previousCharacter.index + 1));
+      } else if (previous == CharacterUtil.SMALL_HIGH_MEEM_ISOLATED) {
+        // the letter should be pronounced as a meem - let's double check it's above a noon
+        CharacterInfo actual = CharacterUtil.getPreviousCharacter(ayah, previousCharacter.index);
+        if (actual.character == CharacterUtil.NOON) {
+          results.add(new TwoPartResult(ResultType.IQLAB, previousCharacter.index, index + 1,
+              ResultType.IQLAB_NOT_PRONOUNCED, actual.index, previousCharacter.index));
+        }
       }
     }
     return results;
