@@ -103,7 +103,7 @@ public class HtmlExporter implements Exporter {
   }
 
   private String getColorForRule(ResultType type) {
-    return Integer.toHexString(type.color);
+    return type.color;
   }
 
   private void write(String string) {

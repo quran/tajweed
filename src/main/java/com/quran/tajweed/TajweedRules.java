@@ -1,7 +1,7 @@
 package com.quran.tajweed;
 
 import com.quran.tajweed.exporter.Exporter;
-import com.quran.tajweed.exporter.HtmlExporter;
+import com.quran.tajweed.exporter.TextExporter;
 import com.quran.tajweed.model.Result;
 import com.quran.tajweed.model.ResultUtil;
 import com.quran.tajweed.model.TajweedRule;
@@ -12,15 +12,17 @@ import java.util.List;
 public class TajweedRules {
 
   public static void main(String args[]) {
+
+    // text uses uthmani text from tanzil
     String[] text = new String[]{
-        "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-        "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
-        "تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ",
-        "ثُمَّ بَعَثْنَاكُم مِّن بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ",
-        "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ",
+        "ٱلْحَمْدُ لِلَّـهِ رَبِّ ٱلْعَـٰلَمِينَ",  // 1:2
+        "ذَٰلِكَ ٱلْكِتَـٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",  // 2:2
+        "ثُمَّ بَعَثْنَـٰكُم مِّنۢ بَعْدِ مَوْتِكُمْ لَعَلَّكُمْ تَشْكُرُونَ",  // 2:56
+        "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ",  // 105:4
+        "تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ",  // 111:1
     };
 
-    Exporter exporter = new HtmlExporter();
+    Exporter exporter = new TextExporter();
     exporter.onOutputStarted();
 
     List<TajweedRule> rules = TajweedRule.RULES;
