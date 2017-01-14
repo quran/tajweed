@@ -12,6 +12,11 @@ import java.util.List;
  * Occurs when a noon shadda or meem shadda appears
  */
 public class GhunnaRule implements Rule {
+  private final boolean isNaskhMode;
+
+  public GhunnaRule(boolean isNaskhMode) {
+    this.isNaskhMode = isNaskhMode;
+  }
 
   @Override
   public List<Result> checkAyah(String ayah) {
@@ -29,7 +34,7 @@ public class GhunnaRule implements Rule {
         startPos = i;
         endPos = i + CharacterUtil.findRemainingMarks(next);
         int indexOfPreviousPronounced = CharacterUtil.findPreviousLetterPronounced(previous);
-        if (CharacterUtil.NASKHSTYLE) {
+        if (isNaskhMode) {
           startPos = i - indexOfPreviousPronounced;
         }
         // In Naskh, meem idgham is differentiated with a different color than ghunna

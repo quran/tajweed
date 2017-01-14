@@ -35,12 +35,18 @@ public class IkhfaRule implements Rule {
   private static final Character[] LETTERS_OF_IKHFA = { TA, THAA, JEEM, DAAL, ZAAL,
       ZA, SEEN, SHEEN, SAAD, DAAD, TAA, ZAA, FAA, QAAF, KAAF };
 
+  private final boolean isNaskhMode;
+
+  public IkhfaRule(boolean isNaskhMode) {
+    this.isNaskhMode = isNaskhMode;
+  }
+
 
   @Override
   public List<Result> checkAyah(String ayah) {
     List<Result> results = new ArrayList<>();
     int length = ayah.length();
-    int startPos = 0, endPos = 0;
+    int startPos, endPos;
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int[] previous = CharacterUtil.getPreviousChars(ayah, i);
@@ -53,7 +59,7 @@ public class IkhfaRule implements Rule {
             if (Arrays.asList(LETTERS_OF_IKHFA).contains(ayah.charAt(i + j))) {
               startPos = i;
               endPos = i + CharacterUtil.findRemainingMarks(next);
-              if (CharacterUtil.NASKHSTYLE) {
+              if (isNaskhMode) {
                 startPos = i - CharacterUtil.findPreviousLetterPronounced(previous);
                 endPos = i + j + CharacterUtil
                     .findRemainingMarks(Arrays.copyOfRange(next, j, next.length));

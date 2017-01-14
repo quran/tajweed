@@ -14,6 +14,11 @@ import java.util.List;
  */
 
 public class QalqalahRule implements Rule {
+  private final boolean isNaskhMode;
+
+  public QalqalahRule(boolean isNaskhMode) {
+    this.isNaskhMode = isNaskhMode;
+  }
 
   @Override
   public List<Result> checkAyah(String ayah) {
@@ -39,7 +44,7 @@ public class QalqalahRule implements Rule {
         if (next[1] == CharacterUtil.SUKUN) {
           endPos++;
         }
-        if (CharacterUtil.NASKHSTYLE) {
+        if (isNaskhMode) {
           endPos = i + CharacterUtil.findRemainingMarks(next);
         }
         // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
@@ -63,8 +68,8 @@ public class QalqalahRule implements Rule {
   private boolean weStopping(int[] next) {
     for (int i = 1; i < next.length; i++) {
       if ((CharacterUtil.isEndMark(
-          next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF && (CharacterUtil.NASKHSTYLE ||
-          (next[i] != CharacterUtil.SMALL_THREE_DOTS))) || next[i] == 0) {
+          next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF &&
+          (isNaskhMode || (next[i] != CharacterUtil.SMALL_THREE_DOTS))) || next[i] == 0) {
         return true;
       }
       if (CharacterUtil.isLetter(next[i])) {

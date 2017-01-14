@@ -25,7 +25,7 @@ public class TajweedRules {
     Exporter exporter = new TextExporter();
     exporter.onOutputStarted();
 
-    List<TajweedRule> rules = TajweedRule.RULES;
+    List<TajweedRule> rules = TajweedRule.MADANI_RULES;
     for (String ayahText : text) {
       List<Result> results = new ArrayList<>();
       for (TajweedRule tajweedRule : rules) {

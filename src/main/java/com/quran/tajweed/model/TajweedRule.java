@@ -13,13 +13,22 @@ import java.util.List;
 
 public class TajweedRule {
 
-  public static List<TajweedRule> RULES = Arrays.asList(
-      new TajweedRule(new GhunnaRule()),
+  public static final List<TajweedRule> MADANI_RULES = Arrays.asList(
+      new TajweedRule(new GhunnaRule(false)),
       new TajweedRule(new IdghamRule()),
-      new TajweedRule(new IkhfaRule()),
+      new TajweedRule(new IkhfaRule(false)),
       new TajweedRule(new IqlabRule()),
-      new TajweedRule(new MeemRule()),
-      new TajweedRule(new QalqalahRule())
+      new TajweedRule(new MeemRule(false)),
+      new TajweedRule(new QalqalahRule(false))
+  );
+
+  public static final List<TajweedRule> NASKH_RULES = Arrays.asList(
+      new TajweedRule(new GhunnaRule(true)),
+      new TajweedRule(new IdghamRule()),
+      new TajweedRule(new IkhfaRule(true)),
+      new TajweedRule(new IqlabRule()),
+      new TajweedRule(new MeemRule(true)),
+      new TajweedRule(new QalqalahRule(true))
   );
 
   public final Rule rule;

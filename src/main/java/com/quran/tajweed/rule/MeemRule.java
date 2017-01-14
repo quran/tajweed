@@ -15,6 +15,13 @@ import java.util.List;
  * then we have Idgaam meem rule
  */
 public class MeemRule implements Rule {
+
+  private final boolean isNaskhMode;
+
+  public MeemRule(boolean isNaskhMode) {
+    this.isNaskhMode = isNaskhMode;
+  }
+
   @Override
   public List<Result> checkAyah(String ayah) {
     List<Result> results = new ArrayList<>();
@@ -28,7 +35,7 @@ public class MeemRule implements Rule {
             if (next[j] == CharacterUtil.MEEM || next[j] == CharacterUtil.BA) {
               startPos = i;
               endPos = i + CharacterUtil.findRemainingMarks(next);
-              if (CharacterUtil.NASKHSTYLE) {
+              if (isNaskhMode) {
                 endPos = i + j + CharacterUtil
                     .findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
               }

@@ -1,7 +1,6 @@
 package com.quran.tajweed.util;
 
 public class CharacterUtil {
-  public static boolean NASKHSTYLE = false;
 
   // diacritic marks
   public static final Character FATHA_TANWEEN = 0x064b;
@@ -25,7 +24,7 @@ public class CharacterUtil {
   public static final Character QAAF = 0x0642;
   public static final Character TAA = 0x0637;
 
-  //pausemarks
+  // pause marks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
   public static final Character SMALL_QAAF_LAAM_ALEF = 0x06D7;
   public static final Character SMALL_HIGH_MEEM = 0x06D8;
