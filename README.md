@@ -9,3 +9,8 @@ the tajweed mus7af.
 
 If Allah makes it easy and things go well, the idea is that the output from
 this project can be used by many projects.
+
+Useful links:
+
+- [Tajweed Mushaf](http://www.islamicbulletin.org/services/details.aspx?id=260)
+- [Naskh Tajweed Mushaf](http://www.zikr.co.uk/content/view/112/180/)
