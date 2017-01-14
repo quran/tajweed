@@ -137,7 +137,7 @@ public class CharacterUtil {
 
   public static int findPreviousLetterPronounced (int[] previous){
     for (int i = 1; i < previous.length; i++){
-      if(isLetter(previous[i]) && isDiaMark(previous[i-1])){
+      if (isLetter(previous[i]) && isDiaMark(previous[i-1])){
         return i;
       }
     }
@@ -146,7 +146,7 @@ public class CharacterUtil {
 
   public static int findRemainingMarks(int[] next) {
     for (int i = 1; i < next.length; i++){
-      if(!isDiaMark(next[i])){
+      if (!isDiaMark(next[i])){
         return i;
       }
     }

@@ -28,7 +28,8 @@ public class IqlabRule implements Rule {
           previous == CharacterUtil.KASRA_TANWEEN ||
           previous == CharacterUtil.NOON) {
         results.add(new TwoPartResult(ResultType.IQLAB, index, index + 1,
-            ResultType.IQLAB_NOT_PRONOUNCED, previousCharacter.index, previousCharacter.index + 1));
+            ResultType.IQLAB_NOT_PRONOUNCED, previousCharacter.index,
+            previousCharacter.index + 1));
       }
     }
     return results;

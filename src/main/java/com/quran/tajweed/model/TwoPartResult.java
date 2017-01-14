@@ -6,7 +6,7 @@ public class TwoPartResult extends Result {
   public final ResultType secondResultType;
 
   public TwoPartResult(ResultType resultType, int start, int ending,
-      ResultType secondResultType, int secondStart, int secondEnding) {
+                       ResultType secondResultType, int secondStart, int secondEnding) {
     super(resultType, start, ending);
     this.secondStart = secondStart;
     this.secondEnding = secondEnding;

@@ -32,8 +32,8 @@ public class IkhfaRule implements Rule {
   private static final Character FAA = 0x0641;
   private static final Character QAAF = CharacterUtil.QAAF;
   private static final Character KAAF = 0x0643;
-  private static final Character[] LETTERS_OF_IKHFA = {TA, THAA, JEEM, DAAL, ZAAL,
-  ZA, SEEN, SHEEN, SAAD, DAAD, TAA, ZAA, FAA, QAAF, KAAF};
+  private static final Character[] LETTERS_OF_IKHFA = { TA, THAA, JEEM, DAAL, ZAAL,
+      ZA, SEEN, SHEEN, SAAD, DAAD, TAA, ZAA, FAA, QAAF, KAAF };
 
 
   @Override
@@ -44,18 +44,19 @@ public class IkhfaRule implements Rule {
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int[] previous = CharacterUtil.getPreviousChars(ayah, i);
-      if (CharacterUtil.isTanween(next[0]) || CharacterUtil.isNoonSaakin(next)){
-        for(int j = 1; j < next.length && next[j] != 0; j++) {
+      if (CharacterUtil.isTanween(next[0]) || CharacterUtil.isNoonSaakin(next)) {
+        for (int j = 1; j < next.length && next[j] != 0; j++) {
           // Basically the first instance there is a real letter
-          if(CharacterUtil.isLetter(next[j]) &&
-            (next[0] != CharacterUtil.FATHA_TANWEEN ||
-            (next[j] != CharacterUtil.ALEF || next[j] != CharacterUtil.ALEF_LAYINA))){
-            if(Arrays.asList(LETTERS_OF_IKHFA).contains(ayah.charAt(i+j))) {
+          if (CharacterUtil.isLetter(next[j]) &&
+              (next[0] != CharacterUtil.FATHA_TANWEEN ||
+                  (next[j] != CharacterUtil.ALEF || next[j] != CharacterUtil.ALEF_LAYINA))) {
+            if (Arrays.asList(LETTERS_OF_IKHFA).contains(ayah.charAt(i + j))) {
               startPos = i;
               endPos = i + CharacterUtil.findRemainingMarks(next);
               if (CharacterUtil.NASKHSTYLE) {
                 startPos = i - CharacterUtil.findPreviousLetterPronounced(previous);
-                endPos = i + j + CharacterUtil.findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+                endPos = i + j + CharacterUtil
+                    .findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
               }
               results.add(new Result(ResultType.IKHFA, startPos, endPos));
             } else { //If the first real letter was not of Ikhfa

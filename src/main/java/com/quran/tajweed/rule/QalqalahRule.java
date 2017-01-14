@@ -30,22 +30,23 @@ public class QalqalahRule implements Rule {
           currentChar == CharacterUtil.QAAF ||
           currentChar == CharacterUtil.TAA) &&
           (next[1] == CharacterUtil.SUKUN ||
-           next[1] == ' ' ||
-           CharacterUtil.isLetter(next[1]) ||
-           weStopping(next)))    {
+              next[1] == ' ' ||
+              CharacterUtil.isLetter(next[1]) ||
+              weStopping(next))) {
         startPos = i;
         // In the madani pattern, only the qalqalh letter and sukun are highlighted (if present)
         endPos = i + 1;
-        if(next[1] == CharacterUtil.SUKUN){
+        if (next[1] == CharacterUtil.SUKUN) {
           endPos++;
         }
-        if(CharacterUtil.NASKHSTYLE) {
+        if (CharacterUtil.NASKHSTYLE) {
           endPos = i + CharacterUtil.findRemainingMarks(next);
         }
         // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
-        if(next[1] == CharacterUtil.SUKUN || next[1] == ' ' || CharacterUtil.isLetter(next[1])){
-          for(int j = 1; j < next.length - 2 && next[j] !=0; j++){
-            if(!(CharacterUtil.isLetter(next[j]) && (next[j+1] == CharacterUtil.SHADDA || next[j+2] == CharacterUtil.SHADDA))){
+        if (next[1] == CharacterUtil.SUKUN || next[1] == ' ' || CharacterUtil.isLetter(next[1])) {
+          for (int j = 1; j < next.length - 2 && next[j] != 0; j++) {
+            if (!(CharacterUtil.isLetter(next[j]) &&
+                (next[j + 1] == CharacterUtil.SHADDA || next[j + 2] == CharacterUtil.SHADDA))) {
               results.add(new Result(ResultType.QALQALAH, startPos, endPos));
             } else {
               break;
@@ -59,13 +60,14 @@ public class QalqalahRule implements Rule {
     return results;
   }
 
-  private boolean weStopping(int[] next){
-    for (int i = 1; i < next.length; i++){
-      if ((CharacterUtil.isEndMark(next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF && (CharacterUtil.NASKHSTYLE ||
+  private boolean weStopping(int[] next) {
+    for (int i = 1; i < next.length; i++) {
+      if ((CharacterUtil.isEndMark(
+          next[i]) && next[i] != CharacterUtil.SMALL_LAAM_ALEF && (CharacterUtil.NASKHSTYLE ||
           (next[i] != CharacterUtil.SMALL_THREE_DOTS))) || next[i] == 0) {
         return true;
       }
-      if(CharacterUtil.isLetter(next[i])){
+      if (CharacterUtil.isLetter(next[i])) {
         break;
       }
     }
