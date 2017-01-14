@@ -3,7 +3,6 @@ package com.quran.tajweed.exporter;
 import com.quran.tajweed.model.Result;
 import com.quran.tajweed.model.ResultType;
 import com.quran.tajweed.model.TwoPartResult;
-import com.quran.tajweed.util.CharacterUtil;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * for more details.
  */
 public class HtmlExporter implements Exporter {
-  private static final char ZERO_WIDTH_JOINER = 0x200d;
 
   @Override
   public void onOutputStarted() {
@@ -83,23 +81,7 @@ public class HtmlExporter implements Exporter {
     buffer.append(getColorForRule(type));
     buffer.append(">");
     buffer.append(ayah.substring(start, end));
-    if (!isEndOfWord(ayah, end)) {
-      buffer.append(ZERO_WIDTH_JOINER);
-    }
     buffer.append("</font>");
-  }
-
-  private boolean isEndOfWord(String ayah, int index) {
-    int totalSize = ayah.length();
-    for (int i = index; i < totalSize; i++) {
-      int codePoint = ayah.codePointAt(i);
-      if (CharacterUtil.isLetter(codePoint)) {
-        return false;
-      } else if (Character.isSpaceChar(codePoint)) {
-        break;
-      }
-    }
-    return true;
   }
 
   private String getColorForRule(ResultType type) {
