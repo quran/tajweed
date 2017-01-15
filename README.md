@@ -12,5 +12,6 @@ this project can be used by many projects.
 
 Useful links:
 
+- [Tanzil Fonts](http://tanzil.net/docs/quranic_fonts)
 - [Tajweed Mushaf](http://www.islamicbulletin.org/services/details.aspx?id=260)
 - [Naskh Tajweed Mushaf](http://www.zikr.co.uk/content/view/112/180/)

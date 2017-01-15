@@ -19,6 +19,9 @@ public class ResultUtil {
   public void sort(List<Result> results) {
     // note that this Comparator imposes an order inconsistent with equals
     results.sort(Comparator.comparingInt(Result::getMinimumStartingPosition));
+  }
+
+  public void fixOverlappingRules(List<Result> results) {
     // the following will delete portions of overlapping rules
     List<Result> removeMe = new ArrayList<>();
     for (int index = 1; index < results.size(); index++) {
@@ -30,7 +33,7 @@ public class ResultUtil {
         if (previousResult.resultType.equals(ResultType.GHUNNA) || previousMax - min <= 0) {
           removeMe.add(previousResult);
         } else {
-          previousResult.setMaximumEndingPosition(previousMax - (previousMax - min));
+          previousResult.setMaximumEndingPosition(min);
         }
       }
     }

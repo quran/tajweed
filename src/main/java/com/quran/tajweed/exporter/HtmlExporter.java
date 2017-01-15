@@ -2,6 +2,7 @@ package com.quran.tajweed.exporter;
 
 import com.quran.tajweed.model.Result;
 import com.quran.tajweed.model.ResultType;
+import com.quran.tajweed.model.ResultUtil;
 import com.quran.tajweed.model.TwoPartResult;
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class HtmlExporter implements Exporter {
 
   @Override
   public void export(String ayah, List<Result> results) {
+    // rules are sorted, but we need to remove or update overlapping rules
+    // because this exporter currently doesn't support backtracking.
+    ResultUtil.INSTANCE.fixOverlappingRules(results);
+
     StringBuilder buffer = new StringBuilder("<p>");
     int currentIndex = 0;
     for (Result result : results) {
@@ -77,9 +82,9 @@ public class HtmlExporter implements Exporter {
   }
 
   private void appendRule(StringBuilder buffer, String ayah, ResultType type, int start, int end) {
-    buffer.append("<font color=");
+    buffer.append("<font color=\"#");
     buffer.append(getColorForRule(type));
-    buffer.append(">");
+    buffer.append("\">");
     buffer.append(ayah.substring(start, end));
     buffer.append("</font>");
   }
