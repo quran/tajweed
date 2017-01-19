@@ -10,7 +10,11 @@ public enum ResultType {
   QALQALAH("Qalqalah", "0091EA"),                                // light blue
   MEEM_IDGHAM("Meem Idgham", "43A047"),                          // light green
   MEEM_IKHFA("Meem Ikhfa", "EACE00"),                            // yellow
-  IKHFA("Ikhfa", "EACE00");                                      // yellow
+  IKHFA("Ikhfa", "EACE00"),                                      // yellow
+  MAAD_SUKOON("Maad as a result of Sukoon", "FB8C00"),           // orange
+  MAAD_MUNFASSIL_MUTASSIL("Maad Munfasil/Muttasil", "F44336"),   // red
+  MAAD_SILA_SUGHRA("Maad Sila Sughra", "FFE0B2"),                // light orange
+  MAAD_LONG("Maad Set Harakat", "B71C1C");                       // dark red
 
   public final String color;
   public final String debugName;

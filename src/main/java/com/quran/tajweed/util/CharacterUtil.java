@@ -9,7 +9,7 @@ public class CharacterUtil {
   public static final Character FATHA = 0x064e;
   public static final Character DAMMA = 0x064f;
   public static final Character KASRA = 0x0650;
-  public static final Character SUKUN = 0x0652;
+  public static final Character SUKUN = 0x0610;
   public static final Character SHADDA = 0x0651;
   public static final Character SMALL_ALEF = 0x0670; //the superscript alef
 
@@ -24,8 +24,12 @@ public class CharacterUtil {
   public static final Character QAAF = 0x0642;
   public static final Character TAA = 0x0637;
 
+  public static final Character MAAD_MARKER = 0x0653;
   // this is the meem on top of a character (like a noon) when it should be pronounced like a meem
   public static final Character SMALL_HIGH_MEEM_ISOLATED = 0x06E2;
+
+  public static final Character TATWEEL = 0x0640;
+  public static final Character HAMZA = 0x0621;
 
   // pause marks
   public static final Character SMALL_SAAD_LAAM_ALEF = 0x06D6;
@@ -44,7 +48,8 @@ public class CharacterUtil {
               c == KASRA ||
               c == SUKUN ||
               c == SHADDA ||
-              c == SMALL_ALEF;
+              c == SMALL_ALEF ||
+              c == MAAD_MARKER;
   }
 
   public static boolean isEndMark (int c){
@@ -57,7 +62,7 @@ public class CharacterUtil {
   }
   
   public static boolean isLetter (int c){
-    return !isEndMark(c) && !isDiaMark(c) && c != ' ';
+    return !isEndMark(c) && !isDiaMark(c) && c != ' ' && c != TATWEEL;
   }
   
   /**
@@ -135,6 +140,43 @@ public class CharacterUtil {
       lastIndex = -1;
     }
     return new CharacterInfo(lastIndex, previous);
+  }
+
+  /**
+   * Finds the previous letter (ignoring tashkeel, spaces, etc)
+   * @param letters the set of letters
+   * @param index the current index
+   * @return the index of the previous letter, or -1
+   */
+  public static int getPreviousLetter(int[] letters, int index) {
+    for (int i = index - 1; i >= 0; i--) {
+      if (isLetter(letters[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Finds the next letter (ignoring tashkeel, spaces, etc)
+   * @param letters the set of letters
+   * @param index the current index
+   * @return the index of the next letter, or -1
+   */
+  public static int getNextLetter(int[] letters, int index) {
+    for (int i = index + 1; i < letters.length; i++) {
+      if (isLetter(letters[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static int getTashkeelForLetter(int[] letters, int index) {
+    if (index + 1 < letters.length && isDiaMark(letters[index + 1])) {
+      return index + 1;
+    }
+    return -1;
   }
 
   public static int findPreviousLetterPronounced (int[] previous){
