@@ -5,16 +5,22 @@ import com.quran.tajweed.model.ResultType;
 import com.quran.tajweed.model.TwoPartResult;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 public class ImageExporter implements Exporter {
+  private static final int MAXIMUM_WIDTH = 1000;
+
   private Font font;
 
   @Override
@@ -63,22 +69,65 @@ public class ImageExporter implements Exporter {
   }
 
   private void writeImage(AttributedString attributedString) {
-    BufferedImage bufferedImage = new BufferedImage(1000, 125, BufferedImage.TYPE_INT_ARGB);
-    Graphics graphics = bufferedImage.getGraphics();
+    BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+
+    Graphics2D gfx = prepareGraphics(bufferedImage.getGraphics());
+    if (gfx != null) {
+      FontRenderContext fontRenderContext = gfx.getFontRenderContext();
+      AttributedCharacterIterator charIterator = attributedString.getIterator();
+      LineBreakMeasurer lineBreakMeasurer = new LineBreakMeasurer(charIterator, fontRenderContext);
+      Point size = getImageSize(charIterator, lineBreakMeasurer, MAXIMUM_WIDTH);
+      bufferedImage = new BufferedImage(size.x, size.y, BufferedImage.TYPE_INT_ARGB);
+      gfx = prepareGraphics(bufferedImage.getGraphics());
+
+      if (gfx != null) {
+        gfx.setColor(Color.BLACK);
+
+        float drawPositionX = 0;
+        float drawPositionY = 0;
+        final int endIndex = charIterator.getEndIndex();
+        lineBreakMeasurer.setPosition(charIterator.getBeginIndex());
+        while (lineBreakMeasurer.getPosition() < endIndex) {
+          TextLayout layout = lineBreakMeasurer.nextLayout(MAXIMUM_WIDTH);
+          drawPositionY += layout.getAscent();
+          layout.draw(gfx, drawPositionX, drawPositionY);
+          drawPositionY += layout.getDescent() + layout.getLeading();
+        }
+
+        try {
+          ImageIO.write(bufferedImage, "png",
+              new File("ayah-" + System.currentTimeMillis() + ".png"));
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+
+  private Graphics2D prepareGraphics(Graphics graphics) {
     if (graphics instanceof Graphics2D) {
       Graphics2D gfx = (Graphics2D) graphics;
       gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
       gfx.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
           RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      return gfx;
     }
-    graphics.setColor(Color.BLACK);
-    graphics.drawString(attributedString.getIterator(), 50, 75);
-    try {
-      ImageIO.write(bufferedImage, "png",
-          new File("ayah-" + System.currentTimeMillis() + ".png"));
-    } catch (IOException e) {
-      e.printStackTrace();
+    return null;
+  }
+
+  private Point getImageSize(AttributedCharacterIterator charIterator,
+                             LineBreakMeasurer lineBreakMeasurer,
+                             int maximumWidth) {
+    final int endIndex = charIterator.getEndIndex();
+    float drawPositionX = 0;
+    float drawPositionY = 0;
+    while (lineBreakMeasurer.getPosition() < endIndex) {
+      TextLayout layout = lineBreakMeasurer.nextLayout(maximumWidth);
+      float width = (float) layout.getBounds().getWidth();
+      drawPositionX = Math.max(drawPositionX, width + Math.abs(width - layout.getAdvance()));
+      drawPositionY += layout.getAscent() + layout.getDescent() + layout.getLeading();
     }
+    return new Point((int) drawPositionX, (int) drawPositionY);
   }
 
   private Color getColorForRule(ResultType type) {
