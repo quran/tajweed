@@ -27,6 +27,8 @@ public class MeemRule implements Rule {
     List<Result> results = new ArrayList<>();
     int length = ayah.length();
     int startPos, endPos;
+    ResultType idghamMode = ResultType.MEEM_IDGHAM;
+    ResultType ikhfaMode = ResultType.MEEM_IKHFA;
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       if (CharacterUtil.isMeemSaakin(next)) {
@@ -38,11 +40,13 @@ public class MeemRule implements Rule {
               if (isNaskhMode) {
                 endPos = i + j + CharacterUtil
                     .findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+                idghamMode = ResultType.MEEM_IDGHAM_NASKH;
+                ikhfaMode = ResultType.MEEM_IKHFA_NASKH;
               }
               if (next[j] == CharacterUtil.MEEM) {
-                results.add(new Result(ResultType.MEEM_IDGHAM, startPos, endPos));
+                results.add(new Result(idghamMode, startPos, endPos));
               } else {
-                results.add(new Result(ResultType.MEEM_IKHFA, startPos, endPos));
+                results.add(new Result(ikhfaMode, startPos, endPos));
               }
             } else {
               break;

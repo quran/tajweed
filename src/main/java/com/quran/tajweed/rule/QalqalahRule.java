@@ -25,6 +25,7 @@ public class QalqalahRule implements Rule {
     List<Result> results = new ArrayList<>();
     int length = ayah.length();
     int startPos, endPos;
+    ResultType mode = ResultType.QALQALAH;
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int currentChar = next[0];
@@ -46,19 +47,20 @@ public class QalqalahRule implements Rule {
         }
         if (isNaskhMode) {
           endPos = i + CharacterUtil.findRemainingMarks(next);
+          mode = ResultType.QALQALAH_NASKH;
         }
         // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
         if (next[1] == CharacterUtil.SUKUN || next[1] == ' ' || CharacterUtil.isLetter(next[1])) {
           for (int j = 1; j < next.length - 2 && next[j] != 0; j++) {
             if (!(CharacterUtil.isLetter(next[j]) &&
                 (next[j + 1] == CharacterUtil.SHADDA || next[j + 2] == CharacterUtil.SHADDA))) {
-              results.add(new Result(ResultType.QALQALAH, startPos, endPos));
+              results.add(new Result(mode, startPos, endPos));
             } else {
               break;
             }
           }
         } else {
-          results.add(new Result(ResultType.QALQALAH, startPos, endPos));
+          results.add(new Result(mode, startPos, endPos));
         }
       }
     }

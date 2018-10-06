@@ -47,6 +47,7 @@ public class IkhfaRule implements Rule {
     List<Result> results = new ArrayList<>();
     int length = ayah.length();
     int startPos, endPos;
+    ResultType mode = ResultType.IKHFA;
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int[] previous = CharacterUtil.getPreviousChars(ayah, i);
@@ -63,8 +64,9 @@ public class IkhfaRule implements Rule {
                 startPos = i - CharacterUtil.findPreviousLetterPronounced(previous);
                 endPos = i + j + CharacterUtil
                     .findRemainingMarks(Arrays.copyOfRange(next, j, next.length));
+                mode = ResultType.IKHFA_NASKH;
               }
-              results.add(new Result(ResultType.IKHFA, startPos, endPos));
+              results.add(new Result(mode, startPos, endPos));
             } else { //If the first real letter was not of Ikhfa
               break;
             }
