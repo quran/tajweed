@@ -38,6 +38,11 @@ import java.util.List;
  * - some letters have an explicit maad marker on top of them (ex laam and meem in alif laam meem).
  */
 public class MaadRule implements Rule {
+  private final boolean isNaskhMode;
+  public MaadRule(boolean isNaskhMode) {
+    this.isNaskhMode = isNaskhMode;
+  }
+
   private static final List<Character> MAAD_LETTERS =
       Arrays.asList(Characters.ALEF, Characters.WAW, Characters.YA, Characters.ENDING_YA,
           Characters.ALEF_SUGHRA, Characters.WAW_SUGHRA, Characters.YA_SUGHRA);
@@ -45,7 +50,7 @@ public class MaadRule implements Rule {
   @Override
   public List<Result> checkAyah(String ayah) {
     List<Result> results = new ArrayList<>();
-
+    if (isNaskhMode) return results;
     int[] characters = ayah.codePoints().toArray();
     for (int i = 0; i < characters.length; i++) {
       boolean isExplicitMaad = isExplicitMaad(characters, i);
