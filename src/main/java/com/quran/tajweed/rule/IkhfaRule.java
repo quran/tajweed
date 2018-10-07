@@ -51,6 +51,23 @@ public class IkhfaRule implements Rule {
     for (int i = 0; i < length; i++) {
       int[] next = CharacterUtil.getNextChars(ayah, i);
       int[] previous = CharacterUtil.getPreviousChars(ayah, i);
+      //If noon sakin or tanween is followed by a letter of Ikhfa
+      if (((CharacterUtil.isTanween(next[0]) ||
+              CharacterUtil.isNoonSaakin(next)) &&
+              isIkhfaLetter(next[CharacterUtil.findNextLetterPronounced(next)]))) {
+        if (!isNaskhMode){ //Mark the noon sakin or tanween (Madani way)
+          startPos = i;
+          endPos = i + CharacterUtil.findRemainingMarks(next);
+        } else { //Find the previous letter and the next letter; Mark everything in between (Naskh way)
+          startPos = i - CharacterUtil.findPreviousLetterPronounced(previous);
+          endPos = i + CharacterUtil.findNextLetterPronounced(next);
+          int[] next2 = CharacterUtil.getNextChars(ayah, endPos);
+          endPos += CharacterUtil.findRemainingMarks(next2);
+          mode = ResultType.IKHFA_NASKH;
+        }
+        results.add(new Result(mode, startPos, endPos));
+      }
+      /*
       if (CharacterUtil.isTanween(next[0]) || CharacterUtil.isNoonSaakin(next)) {
         for (int j = 1; j < next.length && next[j] != 0; j++) {
           // Basically the first instance there is a real letter
@@ -72,8 +89,15 @@ public class IkhfaRule implements Rule {
             }
           }
         }
-      }
+      }*/
     }
     return results;
+  }
+
+  private boolean isIkhfaLetter(int thisChar){
+    return (thisChar == TA || thisChar == TAA || thisChar == JEEM || thisChar == DAAL ||
+            thisChar == ZAAL || thisChar == ZA || thisChar == SEEN || thisChar == THAA ||
+            thisChar == SHEEN || thisChar == SAAD || thisChar == DAAD || thisChar == ZAA ||
+            thisChar == FAA || thisChar == QAAF || thisChar == KAAF);
   }
 }
