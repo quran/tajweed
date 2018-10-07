@@ -35,14 +35,14 @@ public class QalqalahRule implements Rule {
           currentChar == CharacterUtil.JEEM ||
           currentChar == CharacterUtil.QAAF ||
           currentChar == CharacterUtil.TAA) &&
-          (next[1] == CharacterUtil.SUKUN ||
+          ((next[1] == CharacterUtil.SUKUN || next[1] == CharacterUtil.JAZM) ||
               next[1] == ' ' ||
               CharacterUtil.isLetter(next[1]) ||
               weStopping(next))) {
         startPos = i;
         // In the madani pattern, only the qalqalh letter and sukun are highlighted (if present)
         endPos = i + 1;
-        if (next[1] == CharacterUtil.SUKUN) {
+        if ((next[1] == CharacterUtil.SUKUN || next[1] == CharacterUtil.JAZM) ) {
           endPos++;
         }
         if (isNaskhMode) {
@@ -50,7 +50,7 @@ public class QalqalahRule implements Rule {
           mode = ResultType.QALQALAH_NASKH;
         }
         // A special case where no qalqalah is done see surah kafiroon ayah 4 for example
-        if (next[1] == CharacterUtil.SUKUN || next[1] == ' ' || CharacterUtil.isLetter(next[1])) {
+        if ((next[1] == CharacterUtil.SUKUN || next[1] == CharacterUtil.JAZM) || next[1] == ' ' || CharacterUtil.isLetter(next[1])) {
           for (int j = 1; j < next.length - 2 && next[j] != 0; j++) {
             if (!(CharacterUtil.isLetter(next[j]) &&
                 (next[j + 1] == CharacterUtil.SHADDA || next[j + 2] == CharacterUtil.SHADDA))) {
