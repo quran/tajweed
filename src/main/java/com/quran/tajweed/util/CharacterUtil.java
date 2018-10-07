@@ -12,6 +12,7 @@ public class CharacterUtil {
   public static final Character SUKUN = 0x0610;
   public static final Character SHADDA = 0x0651;
   public static final Character SMALL_ALEF = 0x0670; //the superscript alef
+  public static final Character JAZM = 0x06E1; //AKA Naskh Sukun
 
   public static final Character ALEF = 0x0627; // normal alef
   public static final Character ALEF_LAYINA = 0x0649; // looks like ya but pronounced like alef
@@ -49,7 +50,8 @@ public class CharacterUtil {
               c == SUKUN ||
               c == SHADDA ||
               c == SMALL_ALEF ||
-              c == MAAD_MARKER;
+              c == MAAD_MARKER ||
+              c == JAZM;
   }
 
   public static boolean isEndMark (int c){
@@ -73,14 +75,14 @@ public class CharacterUtil {
    */
   public static boolean isNoonSaakin(int[] nextChars){
     return nextChars[0] == NOON &&
-            (nextChars[1] == SUKUN ||
+            ((nextChars[1] == SUKUN || nextChars[1] == JAZM) ||
              nextChars[1] == ' ' ||
              isLetter(nextChars[1]));
   }
 
   public static boolean isMeemSaakin(int[] nextChars){
     return (nextChars[0] == MEEM &&
-            (nextChars[1] == SUKUN ||
+            ((nextChars[1] == SUKUN || nextChars[1] == JAZM)||
             nextChars[1] == ' ' ||
             isLetter(nextChars[1])));
   }
@@ -97,7 +99,7 @@ public class CharacterUtil {
    * Zeros are used to represent non-characters and thus end of the string.
    */
   public static int[] getNextChars(String ayah, int index){
-    int[] next = {0, 0, 0, 0, 0, 0};
+    int[] next = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     for (int j = 0; j < next.length; j++){
       int nIndex = index + j;
       if(nIndex < ayah.length()){
@@ -108,7 +110,7 @@ public class CharacterUtil {
   }
 
   public static int[] getPreviousChars(String ayah, int index){
-    int[] previous = {0, 0, 0, 0, 0, 0};
+    int[] previous = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     for (int j = 0; j < previous.length; j++){
       int pIndex = index - j;
       if(pIndex >= 0){
@@ -179,6 +181,8 @@ public class CharacterUtil {
     return -1;
   }
 
+  //Given an array using getPreviousChars(), returns the index of the previous letter that has a diacritic mark
+  //Assumes all pronounced letters have a diacritic mark; this assumption is valid only for Naskh
   public static int findPreviousLetterPronounced (int[] previous){
     for (int i = 1; i < previous.length; i++){
       if (isLetter(previous[i]) && isDiaMark(previous[i-1])){
@@ -187,7 +191,18 @@ public class CharacterUtil {
     }
     return 0;
   }
+  //Given an array using getNextChars(), returns the index of the next letter that has a diacritic mark
+  //Assumes all pronounced letters have a diacritic mark; this assumption is valid only for Naskh
+  public static int findNextLetterPronounced (int[] next){
+    for (int i = 1; i < next.length - 1; i++){
+      if (isLetter(next[i]) && isDiaMark(next[i + 1])) {
+        return i;
+      }
+    }
+    return 0;
+  }
 
+  //Given an array using getNextChars(), returns index of the array at which all the diacritic marks are included
   public static int findRemainingMarks(int[] next) {
     for (int i = 1; i < next.length; i++){
       if (!isDiaMark(next[i])){
